@@ -8,6 +8,9 @@ from instr import *
 from seconds import Seconds
 from ruffier import test
 
+name = ""
+pulse1, pulse2, pulse3 = 0, 0, 0
+
 
 def check_int(str_num):
     try:
@@ -182,18 +185,17 @@ class Pulse2Screen(Screen):
 
 
 class ResultScreen(Screen):
-    class Result(Screen):
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-            self.outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
-            self.instr = Label(text='')
-            self.outer.add_widget(self.instr)
-            self.add_widget(self.outer)
-            self.on_enter = self.before
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+        self.instr = Label(text='')
+        self.outer.add_widget(self.instr)
+        self.add_widget(self.outer)
+        self.on_enter = self.before
 
-        def before(self):
-            global name
-            self.instr.text = name + '\n' + test(p1, p2, p3, age)
+    def before(self):
+        global name
+        self.instr.text = name + '\n' + test(pulse1, pulse2, pulse3, age)
 
 
 
