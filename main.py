@@ -6,6 +6,10 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from instr import *
 from seconds import Seconds
+from ruffier import test
+
+name = ""
+pulse1, pulse2, pulse3 = 0, 0, 0
 
 
 def check_int(str_num):
@@ -15,7 +19,7 @@ def check_int(str_num):
         return False
 
 
-    
+
 
 class InstructionScreen(Screen):
     def __init__(self, **kwargs):
@@ -46,10 +50,10 @@ class InstructionScreen(Screen):
         # if age == False or age < 7:
         #     self.age.text = str()
         # else:
-        self.manager.current = 'fourth'
+        self.manager.current = 'second'
 
-    
-        
+
+
 
 
 
@@ -113,7 +117,7 @@ class SitsScreen(Screen):
         self.add_widget(box)
     def next(self):
         self.manager.current = 'fourth'
-        
+
 
 
 
@@ -176,14 +180,23 @@ class Pulse2Screen(Screen):
         self.next_screen = True
         self.but1.set_disabled(False)
         self.result1.set_disabled(False)
-        
+
 
 
 
 class ResultScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-    
+        self.outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+        self.instr = Label(text='')
+        self.outer.add_widget(self.instr)
+        self.add_widget(self.outer)
+        self.on_enter = self.before
+
+    def before(self):
+        global name
+        self.instr.text = name + '\n' + test(pulse1, pulse2, pulse3, age)
+
 
 
 class MyApp(App):
@@ -195,7 +208,7 @@ class MyApp(App):
         sm.add_widget(Pulse2Screen(name='fourth'))
         sm.add_widget(ResultScreen(name='fifth'))
         return sm
-    
+
 
 
 app = MyApp()
